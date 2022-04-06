@@ -140,4 +140,139 @@ $ npm install heroku
 **Open pgAdmin**
 
     1. create table
-![create_table](https://i.imgur.com/FzYRvpa.png)
+![create_table](https://i.imgur.com/njs0cOa.png)
+**Connect with database
+
+    1. => 1102DB_HW/CROWN2_12  => adding folder utilis 
+    2. adding datbase.js
+    3. install package 
+```python
+$ npm install pg
+```
+    4. => utilis/database.js
+```js
+const { Pool } = require('pg');
+const { connectionString } = require('pg/lib/defaults');
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+let pool;
+
+if(isProduction) {
+    pool = new Pool (
+        {
+            connectionString: process.env.DATABASE_URL,
+            ssl: { rejectUnauthorized: false }
+        }
+    )
+
+}else {
+    pool = new Pool ({
+        user: 'postgres',
+        host: 'localhost',
+        port: '5432',
+        database: 'crown2',
+        password: '0000'
+    });
+}
+
+module.exports = pool;
+```
+**pgAdmin**
+
+    1. => pgAdmin find "d30j7qmalh3a9c"
+    2. Restore crown.tar
+**Connect to database**
+
+    1. => Create new folder models
+    2. create "Category_12.js
+    3. Typing
+```js
+const db = require('../utilis/database');
+
+const Category_12 = class Category_12 {
+
+        constructor(id, name, size, remote_url, local_url, link_url) {
+                this.id = id;
+                this.name = name;
+                this.remote_url = remote_url;
+                this.local_url = local_url;
+                this.link_url = link_url;
+        }
+
+
+        static async fetchAll() {
+            try {
+                let results = await db.query(`SELECT * from category_12`);
+                // console.log('results', JSON.stringify(results.rows));
+                return results.rows;
+            } catch (err) {
+                console.log('error', err);
+            }
+        }
+}
+
+//testing 
+//const test = async () => {
+//    let results = await Category_12.fetchAll();
+//    console.log('test result', JSON.stringify(results))
+//}
+//test();
+
+module.exports = Category_12.js;
+```
+    4. => /routes/crown2_12.js
+    5. modify the code 
+```js
+var express = require('express');
+const Category_12 = require('../models/Category_12'); //this line
+var router = express.Router();
+
+/* GET home page. */
+router.get('/', async function(req, res, next) {
+  try {
+    let results = await Category_12.fetchAll(); // this line
+    console.log('results', JSON.stringify(results)); // this line
+    res.render('crown2_12/index', {  // this line
+      data: results, // this line
+      id: '409650412', // this line
+      title: 'crown2' }); // this line
+  }catch(err){ // this line
+    console.log('error', err) // this line
+  }
+    
+  });
+
+module.exports = router;
+
+```
+**for loop**
+
+    1. => /views/crown2_12/index.ejs
+    2. modify menu-items
+![1](https://i.imgur.com/yYqCtWr.png)
+    
+    3. delete all menu item
+    4. add this
+```js
+  <div class="homepage">
+    <div>
+      <h3> <%= title %> <%= id %> </h3>
+    </div>
+    <div class="directory-menu">
+
+      
+    <%  for(let i=0; i<data.length; i++) { %> // this line
+      <div class="<%= data[i].size %> menu-item"> // this line
+        <img class="background-image" src="<%= data[i].local_url %>" alt=""> // this line
+        <a href="<%= data[i].link_url %>" class="content"> // this line
+          <h1 class="title"><%= data[i].name %></h1> // this line
+          <span class="subtitle">SHOP NOW</span> // this line
+        </a> // this line
+      </div> // this line
+    <%  } %> // this line
+
+
+    </div>
+  </div>
+```
