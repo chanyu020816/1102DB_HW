@@ -21,4 +21,20 @@ npm start
 ```
 $ npm install nodemon
 ```
-*open package 
+    1. open package.json
+    2. modify
+``` js
+ "scripts": {
+    "start": "node ./bin/www"
+  }
+> to
+ "scripts": {
+    "start": "nodemon ./bin/www"
+  } 
+```
+**Modify public**
+
+    1. open folder - public
+    2. delete all 
+    3. add crown_themes
+![public](https://i.imgur.com/1rg322f.png)
