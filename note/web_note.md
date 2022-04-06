@@ -64,8 +64,8 @@ var app = express();
     5. then change the code to
 ```js
 router.get('/', function(req, res, next) {
-  res.render('crown2_12/index', { id: '409650412', name: 'chanyu' });
-});
+    res.render('crown2_12/index', { id: '409650412', title: 'crown2' });
+  });
 ```
 ![index](https://i.imgur.com/uEUnUmw.png)
 **Add name and id**
@@ -75,7 +75,7 @@ router.get('/', function(req, res, next) {
 ```html
 <div class="homepage">
     <div> // this line 
-      <h3> <%= name %> <%= id %> </h3> // this line 
+      <h3> <%= title %> <%= id %> </h3> // this line 
     </div> // this line
     <div class="directory-menu">
 ```
@@ -115,10 +115,29 @@ d30j7qmalh3a9c // maintenance
 ![connect_github](https://i.imgur.com/GfdjWA5.png)
 
     4. enable auto deploy
-![aauto_deploy](https://i.imgur.com/JX3DZuJ.png)
+![auto_deploy](https://i.imgur.com/JX3DZuJ.png)
 
     5. press deploy at "Manual Deploy"
     // if error then 
 ```python
 $ npm install heroku
 ```
+**Modify script**
+    
+    1. => package.json
+    2. modify this 
+```js
+"scripts": {
+    "start": "nodemon ./bin/www",
+    "dev": "nodemon ./bin/www" // add this line
+  },
+```
+
+    3. then open app on Heroku
+
+[Open app](https://crown2-1102db-hw.herokuapp.com/crown2_12)
+
+**Open pgAdmin**
+
+    1. create table
+![create_table](https://i.imgur.com/FzYRvpa.png)
