@@ -13,7 +13,7 @@ const Category_12 = class Category_12 {
 
         static async fetchAll() {
             try {
-                let results = await db.query(`SELECT * from category_12`);
+                let results = await db.query(`SELECT * from category_12 ORDER BY id`);
                 // console.log('results', JSON.stringify(results.rows));
                 return results.rows;
             } catch (err) {
