@@ -276,3 +276,107 @@ module.exports = router;
     </div>
   </div>
 ```
+**Adding new page jackests**
+
+    1. => pgAdmin
+    2. create new table
+![new_table](new_table.png)
+    
+    3. => models
+    4. create 'shop_12.js'
+    5. copy the code from 'Category_12'
+    6. modify the code 
+```js
+const db = require('../utilis/database');
+
+const shop_12 = class shop_12 { // this line
+
+        constructor(id, name, local_url, prize) { // this line
+                this.id = id; // this line
+                this.name = name; // this line
+                this.local_url = local_url; // this line
+                this.prize = prize; // this line
+        }
+
+
+        static async fetchAll() {
+            try {
+                let results = await db.query(`SELECT * from jacket_12 ORDER BY id`); // this line
+                // console.log('results', JSON.stringify(results.rows));
+                return results.rows;
+            } catch (err) {
+                console.log('error', err);
+            }
+        }
+}
+
+// testing 
+//const test = async () => {
+//    let results = await shop_12.fetchAll(); // this line
+//    console.log('test result', JSON.stringify(results))
+//}
+//test();
+
+module.exports = shop_12;
+```
+    
+    7. => routes
+    8. create 'jackets.js'
+    9. copy the code from 'crown2_12.js'
+    10. modify the code 
+```js
+var express = require('express');
+const shop_12 = require('../models/shop_12'); // this line
+var router = express.Router();
+
+/* GET home page. */
+router.get('/', async function(req, res, next) {
+  try {
+    let results = await shop_12.fetchAll(); // this line
+    console.log('results', JSON.stringify(results));
+    res.render('crown2_12/jackets', { // this line
+      data: results});
+  }catch(err){
+    console.log('error', err)
+  }
+    
+  });
+
+module.exports = router;
+```
+
+    11. => app.js
+    12. add routes
+```js
+const crown2_12_Router = require('./routes/crown2_12')
+const jackets_Router = require('./routes/jackets') // this line
+
+app.use('/crown2_12', crown2_12_Router);
+app.use('/crown2_12/shop_12/jackets', jackets_Router) // this line
+```
+
+    13. copy 'jackets.html' to views/crown2_12
+    14. modify to 'jackets.ejs'
+    15. modify to for loop
+```js
+<div class="shop-page">
+    <div class="collection-page">
+      <h1 class="title">Jackets</h1>
+      <div class="items">
+        <%  for(let i=0; i<data.length; i++) { %>
+          <div class="collection-item">
+            <img class="image" src="<%= data[i].local_url %>" />
+            <div class="collection-footer">
+              <span class="name"><%= data[i].name %></span>
+              <span class="price"><%= data[i].prize %></span>
+            </div>
+            <button class="custom-button">Add to Cart</button>
+          </div>
+        <%  } %>
+      </div>
+    </div>  
+  </div>
+```
+![for_loop](forloop.png)
+
+![result](p3-chrome.png)

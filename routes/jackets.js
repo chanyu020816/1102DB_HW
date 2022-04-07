@@ -8,7 +8,7 @@ router.get('/', async function(req, res, next) {
     let results = await shop_12.fetchAll();
     console.log('results', JSON.stringify(results));
     res.render('crown2_12/jackets', { 
-      data: result});
+      data: results});
   }catch(err){
     console.log('error', err)
   }

@@ -25,7 +25,6 @@ const shop_12 = class shop_12 {
 //const test = async () => {
 //    let results = await shop_12.fetchAll();
 //    console.log('test result', JSON.stringify(results))
-//}
-//test();
+// }
 
 module.exports = shop_12;
