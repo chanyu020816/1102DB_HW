@@ -378,5 +378,4 @@ app.use('/crown2_12/shop_12/jackets', jackets_Router) // this line
   </div>
 ```
 ![for_loop](forloop.png)
-
 ![result](p3-chrome.png)
